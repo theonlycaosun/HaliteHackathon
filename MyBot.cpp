@@ -59,34 +59,36 @@ Move assignMove(Location t) {
             return Move{t, STILL};
         }
         else {
+            for(int direction : CARDINALS) {
+                if (presentMap.getSite(getLocation(t, direction)).owner != myID) {
+                    return Move{t, direction};
+                }
+            }
             //Breadth First Search
-            if(presentMap.getSite(t).owner == myID) {
-                std::queue<hlt::Location> bfs;
-                std::set<hlt::Location> visited;
-                bfs.push(t);
-                do {
-                    l = bfs.front();
-                    visited.insert(l);
-                    bfs.pop();
-                    
-                    for(int d : CARDINALS) {
-                        hlt::Location n = presentMap.getLocation(l, d);
-                        if(visited.count(n) == 0) bfs.push(n);
-                    }
-                } while(presentMap.getSite(l).owner == myID);
-                if (t.y < l.y) {
-                    return Move{t, SOUTH};
+            std::queue<hlt::Location> bfs;
+            std::set<hlt::Location> visited;
+            bfs.push(t);
+            do {
+                l = bfs.front();
+                visited.insert(l);
+                bfs.pop();
+                
+                for(int d : CARDINALS) {
+                    hlt::Location n = presentMap.getLocation(l, d);
+                    if(visited.count(n) == 0) bfs.push(n);
                 }
-                else if (t.y > l.y) {
-                    return Move{t, NORTH};
-                }
-                else if (t.x < l.x) {
-                    return Move{t, EAST};
-                }
-                else if (t.x > l.x) {
-                    return Move{t, WEST};
-                }
-                else return Move{t, WEST};
+            } while(presentMap.getSite(l).owner == myID);
+            if (t.y < l.y) {
+                return Move{t, SOUTH};
+            }
+            else if (t.y > l.y) {
+                return Move{t, NORTH};
+            }
+            else if (t.x < l.x) {
+                return Move{t, EAST};
+            }
+            else if (t.x > l.x) {
+                return Move{t, WEST};
             }
             else return Move{t, WEST};
         }
