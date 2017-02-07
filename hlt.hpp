@@ -12,7 +12,7 @@
 #define WEST 4
 
 const int DIRECTIONS[] = {STILL, NORTH, EAST, SOUTH, WEST};
-const int CARDINALS[] = {NORTH, EAST, SOUTH, WEST};
+const int CARDINALS[] = {EAST, SOUTH, WEST, NORTH};
 
 namespace hlt{
     struct Location{
@@ -26,6 +26,7 @@ namespace hlt{
         unsigned char owner;
         unsigned char strength;
         unsigned char production;
+        unsigned char distanceToBDiorder;
     };
 
     class GameMap{
